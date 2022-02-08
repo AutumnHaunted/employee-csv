@@ -44,7 +44,7 @@ public class CSVReadHandlerTest {
     public static void readQuestionableRecords() {
         EmployeeLists el = new EmployeeLists();
         el.addToEmployees(new Employee(198429,"Mrs.","Serafina","I","Bumgarner","F","serafina.bumgarner@exxonmobil.com","9/21/1982","2/1/2008",69294));
-        el.addToEmployees(new Employee(178566,"Mrs.","Juliette","M","Rojo","F","juliette.rojo'yahoo.co.uk","5/8/1967","6/4/2011",193912));
+        el.addToQuestionables(new Employee(178566,"Mrs.","Juliette","M","Rojo","F","juliette.rojo'yahoo.co.uk","5/8/1967","6/4/2011",193912));
         assertEquals(el, CSVReadHandler.readCSV("readQuestionableRecords.csv"));
     }
 }
