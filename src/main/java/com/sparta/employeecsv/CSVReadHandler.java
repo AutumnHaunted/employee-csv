@@ -1,11 +1,9 @@
 package com.sparta.employeecsv;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 
 public class CSVReadHandler {
 
@@ -46,6 +44,7 @@ public class CSVReadHandler {
                 } catch(ArrayIndexOutOfBoundsException e) {
                     DisplayHandler.printInvalidEmployee(curLineCols);
                 } catch(ParseException e) {
+                    System.out.println(e.getClass().getName());
                     DisplayHandler.printInvalidEmployee(curLineCols);
                 }
             }
