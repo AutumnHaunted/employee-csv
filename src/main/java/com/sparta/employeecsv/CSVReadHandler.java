@@ -23,13 +23,13 @@ public class CSVReadHandler {
                     curEmployee = new Employee( Integer.parseInt(curLineCols[0]),
                                                 curLineCols[1],
                                                 curLineCols[2],
-                                                curLineCols[3],
+                                                curLineCols[3].toUpperCase().charAt(0),
                                                 curLineCols[4],
-                                                curLineCols[5],
+                                                curLineCols[5].toUpperCase().charAt(0),
                                                 curLineCols[6],
                                                 curLineCols[7],
                                                 curLineCols[8],
-                                                curLineCols[9]);
+                                                Integer.parseInt(curLineCols[9]));
                     if(EmployeeValidator.validate(curEmployee)) {
                         if(EmployeeValidator.isUnique(curEmployee)) {
                             el.addToEmployees(curEmployee);
