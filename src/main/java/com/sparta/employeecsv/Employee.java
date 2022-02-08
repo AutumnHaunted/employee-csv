@@ -44,7 +44,8 @@ public class Employee extends People{
     public void setEmpID(int empID) {
         EmpID = empID;
     }
-
+    public char getGender(){return Gender;}
+    public String getPrefix(){return Prefix;}
     public String getDate_of_Joining() {
         return Date_of_Joining;
     }
