@@ -9,8 +9,8 @@ public class CSVReadHandler {
 
     private static String STRING_DELIMITER = ",";
 
-    public static EmployeeLists readCSV(String filePath) {
-        EmployeeLists el = new EmployeeLists    ();
+    public static EmployeeList readCSV(String filePath) {
+        EmployeeList el = new EmployeeList();
         String curLine;
         String[] curLineCols;
         Employee curEmployee;
