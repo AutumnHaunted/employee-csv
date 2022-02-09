@@ -1,81 +1,125 @@
 package com.sparta.employeecsv;
 
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Employee extends People{
 
-    private int EmpID;
-    private String Date_of_Joining;
+    private int empID;
+    private String prefix;
+    private String firstName;
+    private char middleInitial;
+    private String lastName;
+    private char gender;
+    private String email;
+    private LocalDate dateOfBirth;
+    private LocalDate dateOfJoining;
+    private int salary;
 
-
-    private int Salary;
-
-    public Employee(int empID, String prefix, String firstName, char middleInitial, String lastName, char gender, String email, String date_of_Birth, String date_of_Joining, int salary) throws ParseException {
-        EmpID = empID;
-        Prefix = prefix;
-        FirstName = firstName;
-        MiddleInitial = middleInitial;
-        LastName = lastName;
-        Gender = gender;
-        Email = email;
-        Date_of_Birth = date_of_Birth;
-        Date_of_Joining = date_of_Joining;
-        Salary = salary;
+    public Employee(int empID, String prefix, String firstName, char middleInitial, String lastName, char gender, String email, String dateOfBirth, String dateOfJoining, int salary) throws ParseException {
+        this.empID = empID;
+        this.prefix = prefix;
+        this.firstName = firstName;
+        this.middleInitial = middleInitial;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.email = email;
+        this.dateOfBirth = formatDate(dateOfBirth);
+        this.dateOfJoining = formatDate(dateOfJoining);
+        this.salary = salary;
     }
-    public Date formatDate(String s) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        Date date = null;
-        try {
-            date = formatter.parse(s);
-            System.out.println("Date is: " + date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+
+    public Employee() {
+
+    }
+
+    private LocalDate formatDate(String s) throws ParseException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+        LocalDate date = LocalDate.parse(s, formatter);
+        // System.out.println("Date is: " + date); //
         return date;
     }
-
-    public int getEmpID() {
-        return EmpID;
+    public static String printDate(LocalDate a) throws ParseException {
+            SimpleDateFormat dt1 = new SimpleDateFormat("MM-dd-yyyy");
+            System.out.println(dt1.format(a));
+            return dt1.format(a);
     }
+
+    public int getEmpID() { return empID; }
+    public String getPrefix() { return prefix; }
+    public String getFirstName() { return firstName; }
+    public char getMiddleInitial() { return middleInitial; }
+    public String getLastName() { return lastName; }
+    public char getGender() { return gender; }
+    public String getEmail() { return email; }
+    public LocalDate getDateOfBirth() { return dateOfBirth; }
+    public LocalDate getDateOfJoining() { return dateOfJoining; }
+    public int getSalary() { return salary; }
 
     public void setEmpID(int empID) {
-        EmpID = empID;
-    }
-    public char getGender(){return Gender;}
-    public String getPrefix(){return Prefix;}
-    public String getDate_of_Joining() {
-        return Date_of_Joining;
+        this.empID = empID;
     }
 
-    public void setDate_of_Joining(String date_of_Joining) {
-        Date_of_Joining = date_of_Joining;
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 
-    public int getSalary() {
-        return Salary;
+    @Override
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    @Override
+    public void setMiddleInitial(char middleInitial) {
+        this.middleInitial = middleInitial;
+    }
+
+    @Override
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Override
+    public void setGender(char gender) {
+        this.gender = gender;
+    }
+
+    @Override
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setDateOfJoining(LocalDate dateOfJoining) {
+        this.dateOfJoining = dateOfJoining;
     }
 
     public void setSalary(int salary) {
-        Salary = salary;
+        this.salary = salary;
     }
 
     @Override
     public String toString() {
         return "Employee{" +
-                "EmpID=" + EmpID +
-                ", Date_of_Joining='" + Date_of_Joining + '\'' +
-                ", Salary=" + Salary +
-                ", Prefix='" + Prefix + '\'' +
-                ", FirstName='" + FirstName + '\'' +
-                ", MiddleInitial=" + MiddleInitial +
-                ", LastName='" + LastName + '\'' +
-                ", Gender=" + Gender +
-                ", Email='" + Email + '\'' +
-                ", Date_of_Birth='" + Date_of_Birth + '\'' +
+                "Employee ID=" + empID +
+                ", Date of Joining='" + dateOfJoining + '\'' +
+                ", Salary=" + salary +
+                ", Prefix='" + prefix + '\'' +
+                ", First Name='" + firstName + '\'' +
+                ", Middle Initial=" + middleInitial +
+                ", Last Name='" + lastName + '\'' +
+                ", Gender=" + gender +
+                ", Email='" + email + '\'' +
+                ", Date of Birth='" + dateOfBirth + '\'' +
                 '}';
     }
+
 }
 

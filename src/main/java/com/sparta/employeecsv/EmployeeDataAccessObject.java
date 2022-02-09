@@ -62,25 +62,15 @@ public class EmployeeDataAccessObject {
         System.out.println(sb.toString());
 
     }
-    public static void insertData(String emp_ID, String namePrefix, String firstName, String middleInitial, String lastName,
-                                  String gender, String email, LocalDate dob, LocalDate dateOfJoining, int salary, Connection thisConnection){
+    public static void insertData(Employee e, Connection thisConnection){
         try {
             PreparedStatement preparedStatement = thisConnection.prepareStatement(
          // Insert SQL Statement Here           "insert INTO `tester`.`employees` (`emp_id`,`name_prefix`,`first_name`, `middle_initial`, " +
          //                   "`last_name`, `gender`,`email`, `dob`, `date_joined`, `salary`) " +
          //                   "values (?,?,?,?,?,?,?,?,?,?)");
 
-            preparedStatement.setString(1,emp_ID);
-            preparedStatement.setString(2,namePrefix);
-            preparedStatement.setString(3, firstName);
-            preparedStatement.setString(4, middleInitial);
-            preparedStatement.setString(5, lastName);
-            preparedStatement.setString(6, gender);
-            preparedStatement.setString(7, email);
-            preparedStatement.setDate(8, Date.valueOf(dob));
-            preparedStatement.setDate(9, Date.valueOf(dateOfJoining));
-            preparedStatement.setInt(10, salary);
 
+            preparedStatement = setEmployeeVars(preparedStatement, e);
             preparedStatement.execute();
 
         } catch (SQLException throwables) {
@@ -88,16 +78,26 @@ public class EmployeeDataAccessObject {
         }
     }
 
-    public static void insertSingleEmployee(Employee employee,Connection thisConnection){
-        insertData(employee.getEmp_ID(), employee.getNamePrefix(), employee.getFirstName(), employee.getMiddleInitial(),
-                employee.getLastName(), employee.getGender(), employee.getEmail(),employee.getDob(), employee.getDateOfJoining(),
-                employee.getSalary(), thisConnection);
+    private static PreparedStatement setEmployeeVars(PreparedStatement preparedStatement, Employee e) throws SQLException {
+        preparedStatement.setInt(1,e.getEmpID()));
+        preparedStatement.setString(2, e.getPrefix());
+        preparedStatement.setString(3, e.getFirstName());
+        preparedStatement.setString(4, String.valueOf(e.getMiddleInitial()));
+        preparedStatement.setString(5, e.getLastName());
+        preparedStatement.setString(6, String.valueOf(e.getGender()));
+        preparedStatement.setString(7, e.getEmail());
+        preparedStatement.setDate(8, Date.valueOf(e.getDateOfBirth()));
+        preparedStatement.setDate(9, Date.valueOf(e.getDateOfJoining()));
+        preparedStatement.setInt(10, e.getSalary());
+
+        return preparedStatement;
     }
+
 
     public static void insertListOfEmployees(ArrayList<Employee> employeeList, Connection thisConnection){
         System.out.println("Implementing EmployeeList into Database...");
         for(Employee employee: employeeList){
-            insertSingleEmployee(employee, thisConnection);
+            insertData(employee, thisConnection);
         }
     }
     public static void insertInBatches(ArrayList<Employee> employeeList, Connection thisConnection)  {
@@ -109,17 +109,7 @@ public class EmployeeDataAccessObject {
                  //           "values (?,?,?,?,?,?,?,?,?,?)");
 
             for(Employee employee : employeeList) {
-                preparedStatement.setString(1,employee.getEmp_ID());
-                preparedStatement.setString(2,employee.getNamePrefix());
-                preparedStatement.setString(3, employee.getFirstName());
-                preparedStatement.setString(4, employee.getMiddleInitial());
-                preparedStatement.setString(5, employee.getLastName());
-                preparedStatement.setString(6, employee.getGender());
-                preparedStatement.setString(7, employee.getEmail());
-                preparedStatement.setDate(8, Date.valueOf(employee.getDob()));
-                preparedStatement.setDate(9, Date.valueOf(employee.getDateOfJoining()));
-                preparedStatement.setInt(10, employee.getSalary());
-
+                preparedStatement = setEmployeeVars(preparedStatement, employee);
                 preparedStatement.addBatch();
             }
             preparedStatement.executeBatch();
