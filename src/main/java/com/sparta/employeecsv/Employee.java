@@ -1,6 +1,7 @@
 package com.sparta.employeecsv;
 
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,16 +26,15 @@ public class Employee extends People{
         Date_of_Joining = date_of_Joining;
         Salary = salary;
     }
-    public Date formatDate(String s) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        Date date = null;
-        try {
-            date = formatter.parse(s);
-            System.out.println("Date is: " + date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+    public static Date formatDate(String s) throws ParseException {
+        DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = sourceFormat.parse(s);
         return date;
+    }
+    public static String printDate(Date a) throws ParseException {
+            SimpleDateFormat dt1 = new SimpleDateFormat("MM-dd-yyyy");
+            System.out.println(dt1.format(a));
+            return dt1.format(a);
     }
 
     public int getEmpID() {
