@@ -6,13 +6,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class EmployeeValidatorTest {
 
     @Test
     @DisplayName("Given a duplicate employee id, return false")
-    public void givenADuplicateEmpID_ReturnFalse(){
+    public void givenADuplicateEmpID_ReturnFalse() throws ParseException {
         Employee emp1 = new Employee();
         emp1.setEmpID(1);
         Employee emp2 = new Employee();

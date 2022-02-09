@@ -16,7 +16,7 @@ public class Employee extends People{
     private String lastName;
     private char gender;
     private String email;
-    private LocalDate dateOfBirth
+    private LocalDate dateOfBirth;
     private LocalDate dateOfJoining;
     private int salary;
 
@@ -31,6 +31,10 @@ public class Employee extends People{
         this.dateOfBirth = formatDate(dateOfBirth);
         this.dateOfJoining = formatDate(dateOfJoining);
         this.salary = salary;
+    }
+
+    public Employee() {
+
     }
 
     private LocalDate formatDate(String s) throws ParseException {
@@ -55,6 +59,51 @@ public class Employee extends People{
     public LocalDate getDateOfBirth() { return dateOfBirth; }
     public LocalDate getDateOfJoining() { return dateOfJoining; }
     public int getSalary() { return salary; }
+
+    public void setEmpID(int empID) {
+        this.empID = empID;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    @Override
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    @Override
+    public void setMiddleInitial(char middleInitial) {
+        this.middleInitial = middleInitial;
+    }
+
+    @Override
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Override
+    public void setGender(char gender) {
+        this.gender = gender;
+    }
+
+    @Override
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setDateOfJoining(LocalDate dateOfJoining) {
+        this.dateOfJoining = dateOfJoining;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
 
     @Override
     public String toString() {
