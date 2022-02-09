@@ -4,31 +4,44 @@ package com.sparta.employeecsv;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Employee extends People{
 
-    private int EmpID;
-    private String Date_of_Joining;
+    private int empID;
+    private String prefix;
+    private String firstName;
+    private char middleInitial;
+    private String lastName;
+    private char gender;
+    private String email;
+    private LocalDate dateOfBirth
+    private LocalDate dateOfJoining;
+    private int salary;
 
-
-    private int Salary;
-
-    public Employee(int empID, String prefix, String firstName, char middleInitial, String lastName, char gender, String email, String date_of_Birth, String date_of_Joining, int salary) throws ParseException {
-        EmpID = empID;
-        Prefix = prefix;
-        FirstName = firstName;
-        MiddleInitial = middleInitial;
-        LastName = lastName;
-        Gender = gender;
-        Email = email;
-        Date_of_Birth = date_of_Birth;
-        Date_of_Joining = date_of_Joining;
-        Salary = salary;
+    public Employee(int empID, String prefix, String firstName, char middleInitial, String lastName, char gender, String email, String dateOfBirth, String dateOfJoining, int salary) throws ParseException {
+        this.empID = empID;
+        this.prefix = prefix;
+        this.firstName = firstName;
+        this.middleInitial = middleInitial;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.email = email;
+        this.dateOfBirth = formatDate(dateOfBirth);
+        this.dateOfJoining = formatDate(dateOfJoining);
+        this.salary = salary;
     }
+<<<<<<< HEAD
     public static Date formatDate(String s) throws ParseException {
         DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = sourceFormat.parse(s);
+=======
+    private LocalDate formatDate(String s) throws ParseException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+        LocalDate date = LocalDate.parse(s, formatter);
+        // System.out.println("Date is: " + date); //
+>>>>>>> dev
         return date;
     }
     public static String printDate(Date a) throws ParseException {
@@ -37,45 +50,32 @@ public class Employee extends People{
             return dt1.format(a);
     }
 
-    public int getEmpID() {
-        return EmpID;
-    }
-
-    public void setEmpID(int empID) {
-        EmpID = empID;
-    }
-    public char getGender(){return Gender;}
-    public String getPrefix(){return Prefix;}
-    public String getDate_of_Joining() {
-        return Date_of_Joining;
-    }
-
-    public void setDate_of_Joining(String date_of_Joining) {
-        Date_of_Joining = date_of_Joining;
-    }
-
-    public int getSalary() {
-        return Salary;
-    }
-
-    public void setSalary(int salary) {
-        Salary = salary;
-    }
+    public int getEmpID() { return empID; }
+    public String getPrefix() { return prefix; }
+    public String getFirstName() { return firstName; }
+    public char getMiddleInitial() { return middleInitial; }
+    public String getLastName() { return lastName; }
+    public char getGender() { return gender; }
+    public String getEmail() { return email; }
+    public LocalDate getDateOfBirth() { return dateOfBirth; }
+    public LocalDate getDateOfJoining() { return dateOfJoining; }
+    public int getSalary() { return salary; }
 
     @Override
     public String toString() {
         return "Employee{" +
-                "EmpID=" + EmpID +
-                ", Date_of_Joining='" + Date_of_Joining + '\'' +
-                ", Salary=" + Salary +
-                ", Prefix='" + Prefix + '\'' +
-                ", FirstName='" + FirstName + '\'' +
-                ", MiddleInitial=" + MiddleInitial +
-                ", LastName='" + LastName + '\'' +
-                ", Gender=" + Gender +
-                ", Email='" + Email + '\'' +
-                ", Date_of_Birth='" + Date_of_Birth + '\'' +
+                "Employee ID=" + empID +
+                ", Date of Joining='" + dateOfJoining + '\'' +
+                ", Salary=" + salary +
+                ", Prefix='" + prefix + '\'' +
+                ", First Name='" + firstName + '\'' +
+                ", Middle Initial=" + middleInitial +
+                ", Last Name='" + lastName + '\'' +
+                ", Gender=" + gender +
+                ", Email='" + email + '\'' +
+                ", Date of Birth='" + dateOfBirth + '\'' +
                 '}';
     }
+
 }
 
