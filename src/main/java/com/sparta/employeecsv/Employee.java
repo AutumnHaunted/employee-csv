@@ -32,19 +32,14 @@ public class Employee extends People{
         this.dateOfJoining = formatDate(dateOfJoining);
         this.salary = salary;
     }
-<<<<<<< HEAD
-    public static Date formatDate(String s) throws ParseException {
-        DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = sourceFormat.parse(s);
-=======
+
     private LocalDate formatDate(String s) throws ParseException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
         LocalDate date = LocalDate.parse(s, formatter);
         // System.out.println("Date is: " + date); //
->>>>>>> dev
         return date;
     }
-    public static String printDate(Date a) throws ParseException {
+    public static String printDate(LocalDate a) throws ParseException {
             SimpleDateFormat dt1 = new SimpleDateFormat("MM-dd-yyyy");
             System.out.println(dt1.format(a));
             return dt1.format(a);
