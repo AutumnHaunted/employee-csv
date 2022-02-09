@@ -95,7 +95,7 @@ public class EmployeeDataAccessObject {
     }
 
     public static void insertListOfEmployees(ArrayList<Employee> employeeList, Connection thisConnection){
-        //System.out.println("Populating Database with Employee List...");
+        System.out.println("Implementing EmployeeList into Database...");
         for(Employee employee: employeeList){
             insertSingleEmployee(employee, thisConnection);
         }
