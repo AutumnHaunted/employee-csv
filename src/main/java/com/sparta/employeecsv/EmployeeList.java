@@ -7,7 +7,7 @@ public class EmployeeList {
     private ArrayList<Employee> duplicates;
     private ArrayList<Employee> questionables;
 
-    public void addToEmployee(Employee e) {
+    public void addToEmployees(Employee e) {
         employees.add(e);
     }
 
