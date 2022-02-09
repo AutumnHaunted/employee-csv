@@ -19,7 +19,7 @@ public class DisplayHandler {
         }
     }
 
-    logger.info("Program started");
+        logger.info("Program started");
         long startTotal = System.currentTimeMillis();
         System.out.println("Reading in .csv file...");
         long startReadFile = System.currentTimeMillis();
