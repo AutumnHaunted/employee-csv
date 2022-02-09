@@ -32,6 +32,7 @@ public class EmployeeValidator {
         }
         return false;
     }
+
     private static boolean validateEmail(String email) {
         boolean result = true;
         Pattern regexEmailPattern = Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
@@ -42,6 +43,7 @@ public class EmployeeValidator {
         }
         return false;
     }
+
 
     public static boolean isUnique(Employee emp){
             if (uniqueEmployees.containsKey(emp.getEmpID())) {
