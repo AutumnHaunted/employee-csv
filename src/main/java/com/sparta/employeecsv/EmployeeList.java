@@ -7,6 +7,12 @@ public class EmployeeList {
     private ArrayList<Employee> duplicates;
     private ArrayList<Employee> questionables;
 
+
+    public EmployeeList() {
+        this.employees = new ArrayList<Employee>();
+        this.duplicates = new ArrayList<Employee>();
+        this.questionables = new ArrayList<Employee>();
+    }
     public void addToEmployees(Employee e) {
         employees.add(e);
     }

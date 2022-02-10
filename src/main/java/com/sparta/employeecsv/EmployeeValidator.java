@@ -7,21 +7,23 @@ import java.util.regex.*;
 
 public class EmployeeValidator {
 
-
     public static boolean validate(Employee emp) {
-        if (validateNamePrefix(emp.getPrefix()) && validateGender(emp.getGender()) && validateEmail(emp.getEmail())){
+        if (validateNamePrefix(emp.getPrefix()) && validateGender(emp.getGender()) && validateEmail(emp.getEmail())) {
             return true;
-        };
-    return false;
+        }
+        ;
+        return false;
     }
-    private static boolean validateNamePrefix(String prefix){
-        if (prefix.equals("Mrs.") || prefix.equals("Mr.") || prefix.equals("Dr.")|| prefix.equals("Hon.")|| prefix.equals("Ms.") || prefix.equals("Drs.") || prefix.equals("Prof.")){
+
+    private static boolean validateNamePrefix(String prefix) {
+        if (prefix.equals("Mrs.") || prefix.equals("Mr.") || prefix.equals("Dr.") || prefix.equals("Hon.") || prefix.equals("Ms.") || prefix.equals("Drs.") || prefix.equals("Prof.")) {
             return true;
         }
         return false;
     }
-    private static boolean validateGender(char gender){
-        if (gender == 'M' || gender == 'F' || gender == 'X'){
+
+    private static boolean validateGender(char gender) {
+        if (gender == 'M' || gender == 'F' || gender == 'X') {
             return true;
         }
         return false;
@@ -38,12 +40,15 @@ public class EmployeeValidator {
         return false;
     }
 
-        public static boolean isUnique (EmployeeList el, Employee emp){
-            for (int i = 0; i < el.getEmployees().size(); i++) {
-                if (el.getEmployees().get(i).getEmpID() == emp.getEmpID()) {
-                    return false;
-                }
+
+    public static boolean isUnique(EmployeeList el, Employee emp) {
+
+        for (int i = 0; i < el.getEmployees().size(); i++) {
+            if (el.getEmployees().get(i).getEmpID()== emp.getEmpID()){
+                return false;
             }
-            return true;
+
         }
+        return true;
+    }
 }
