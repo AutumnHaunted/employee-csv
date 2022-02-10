@@ -23,7 +23,7 @@ public class EmployeeValidatorTest {
 //         EmployeeValidator validate = new EmployeeValidator();
 //         validate.isUnique(emp2);
 //         boolean actual = validate.isUnique(emp2);
-=======
+
         Employee emp1 = new Employee(123456, "Mr.","Harry",'I',"Lewis", 'M',
                 "harryh@h.com", "09/14/1994", "13/12/13",60000);
 
@@ -33,7 +33,7 @@ public class EmployeeValidatorTest {
 
 
         boolean actual = EmployeeValidator.isUnique(emp2);
->>>>>>> dev
+
         boolean expected = false;
         assertEquals(expected, actual);
     }
