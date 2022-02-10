@@ -31,7 +31,7 @@ public class CSVReadHandler {
                                                 curLineCols[8],
                                                 Integer.parseInt(curLineCols[9]));
                     if(EmployeeValidator.validate(curEmployee)) {
-                        if(EmployeeValidator.isUnique(curEmployee)) {
+                        if(EmployeeValidator.isUnique(el,curEmployee)) {
                             el.addToEmployees(curEmployee);
                         } else {
                             el.addToDuplicates(curEmployee);

@@ -65,9 +65,10 @@ public class EmployeeDataAccessObject {
     public static void insertData(Employee e, Connection thisConnection){
         try {
             PreparedStatement preparedStatement = thisConnection.prepareStatement(
-         // Insert SQL Statement Here           "insert INTO `tester`.`employees` (`emp_id`,`name_prefix`,`first_name`, `middle_initial`, " +
-         //                   "`last_name`, `gender`,`email`, `dob`, `date_joined`, `salary`) " +
-         //                   "values (?,?,?,?,?,?,?,?,?,?)");
+//          Insert SQL Statement Here
+          "insert INTO `tester`.`employees` (`emp_id`,`name_prefix`,`first_name`, `middle_initial`, " +
+                            "`last_name`, `gender`,`email`, `dob`, `date_joined`, `salary`) " +
+                            "values (?,?,?,?,?,?,?,?,?,?)");
 
 
             preparedStatement = setEmployeeVars(preparedStatement, e);
@@ -79,7 +80,7 @@ public class EmployeeDataAccessObject {
     }
 
     private static PreparedStatement setEmployeeVars(PreparedStatement preparedStatement, Employee e) throws SQLException {
-        preparedStatement.setInt(1,e.getEmpID()));
+        preparedStatement.setInt(1,e.getEmpID());
         preparedStatement.setString(2, e.getPrefix());
         preparedStatement.setString(3, e.getFirstName());
         preparedStatement.setString(4, String.valueOf(e.getMiddleInitial()));
@@ -104,9 +105,10 @@ public class EmployeeDataAccessObject {
 
         try {
             PreparedStatement preparedStatement = thisConnection.prepareStatement(
-        //Insert SQL Statement here       //     "insert INTO `tester`.`employees` (`emp_id`,`name_prefix`,`first_name`, `middle_initial`, " +
-                //            "`last_name`, `gender`,`email`, `dob`, `date_joined`, `salary`) " +
-                 //           "values (?,?,?,?,?,?,?,?,?,?)");
+        //Insert SQL Statement here
+                         "insert INTO `tester`.`employees` (`emp_id`,`name_prefix`,`first_name`, `middle_initial`, " +
+                            "`last_name`, `gender`,`email`, `dob`, `date_joined`, `salary`) " +
+                            "values (?,?,?,?,?,?,?,?,?,?)");
 
             for(Employee employee : employeeList) {
                 preparedStatement = setEmployeeVars(preparedStatement, employee);
