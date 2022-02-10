@@ -49,7 +49,7 @@ public class CSVReadHandler {
                 }
             }
         } catch(IOException e) {
-            DisplayHandler.printError(e);
+            e.printStackTrace();
         }
         return el;
     }
