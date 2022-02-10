@@ -1,14 +1,16 @@
 package com.sparta.employeecsv;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import java.sql.SQLException;
+
 public class EmployeeDataAccessObject {
-    private static Connection connection;
+    private static Connection connection = null;
     private static final Properties properties = new Properties();
 
 
@@ -20,21 +22,32 @@ public class EmployeeDataAccessObject {
         }
     }
 
-    public static void connectToDataBase(String url){
-        createProperties();
-        String username = properties.getProperty("username");
-        String password = properties.getProperty("password");
-
-        try{
-            connection = DriverManager.getConnection(url,username,password);
-
-        }catch(SQLException e){
-            e.printStackTrace();
+    public static Connection getConnection() throws SQLException,IOException {
+        if(connection==null) {
+            Properties props = new Properties();
+            try {
+                props.load(new FileReader("mysql.properties"));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            connection = DriverManager.getConnection(
+                    props.getProperty("db.url"),
+                    props.getProperty("db.userID"),
+                    props.getProperty("db.password"));
+            //jdbc: what you are using : ip address or machine : port number : database
+            System.out.println("Connected");
+            return connection;
         }
-
-        System.out.println("Connected to DataBase");
-
+        return connection;
     }
+    public  static void closeConnection() throws SQLException{
+        if (connection!=null){
+            connection.close();
+        }
+    }
+
 
     public static void queryDataBase(String query){
         StringBuilder sb = new StringBuilder();
@@ -119,6 +132,32 @@ public class EmployeeDataAccessObject {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+    private static void insertPrepared() throws SQLException {
+        PreparedStatement preparedStatement= null;
+        try{
+            Connection connection= getConnection();
+            //? is a placeholder
+            //sql syntax INSERT INTO actor (first_name,last_name) VALUES (?,?)
+            preparedStatement = connection.prepareStatement(
+                    "UPDATE actor SET last_name = ? where actor_id= ?");
+            preparedStatement.setString(1,"Master");
+            preparedStatement.setInt(2,199);
+            preparedStatement.executeUpdate();
+            int rowsAffected =preparedStatement.executeUpdate();
+            System.out.println(rowsAffected);
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection();
+        }
+    }
+    public static void main(String[] args) throws SQLException {
+        insertPrepared();
+
     }
 }
 
