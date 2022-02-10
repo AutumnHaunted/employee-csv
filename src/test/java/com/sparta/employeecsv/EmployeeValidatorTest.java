@@ -31,8 +31,9 @@ public class EmployeeValidatorTest {
                 "harryh@h.com", "09/14/1994", "13/12/13",60000);
 
 
-
-        boolean actual = EmployeeValidator.isUnique(emp2);
+        EmployeeList el =new EmployeeList();
+        el.addToEmployees(emp1);
+        boolean actual = EmployeeValidator.isUnique(el,emp2);
 
         boolean expected = false;
         assertEquals(expected, actual);
@@ -46,8 +47,9 @@ public class EmployeeValidatorTest {
         Employee emp2 = new Employee(123457, "Mr.","Harry",'I',"Lewis", 'M',
                 "harryh@h.com", "09/14/1994", "13/12/13",60000);
 
-
-        boolean actual = EmployeeValidator.isUnique(emp2);
+        EmployeeList el =new EmployeeList();
+        el.addToEmployees(emp1);
+        boolean actual = EmployeeValidator.isUnique(el,emp2);
         boolean expected = true;
         assertEquals(expected, actual);
     }

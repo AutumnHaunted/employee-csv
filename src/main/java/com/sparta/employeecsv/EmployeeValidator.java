@@ -6,12 +6,6 @@ import java.util.HashMap;
 import java.util.regex.*;
 
 public class EmployeeValidator {
-    private static HashMap<Integer, Employee> uniqueEmployees;
-
-
-    EmployeeValidator(){
-        uniqueEmployees = new HashMap<Integer, Employee>();
-    }
 
 
     public static boolean validate(Employee emp) {
@@ -44,12 +38,12 @@ public class EmployeeValidator {
         return false;
     }
 
-
-    public static boolean isUnique(Employee emp){
-            if (uniqueEmployees.containsKey(emp.getEmpID())) {
-                return false;
+        public static boolean isUnique (EmployeeList el, Employee emp){
+            for (int i = 0; i < el.getEmployees().size(); i++) {
+                if (el.getEmployees().get(i).getEmpID() == emp.getEmpID()) {
+                    return false;
+                }
             }
-            uniqueEmployees.put(emp.getEmpID(), emp);
             return true;
         }
-    }
+}
