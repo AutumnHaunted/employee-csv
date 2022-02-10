@@ -65,9 +65,8 @@ public class EmployeeDataAccessObject {
     public static void insertData(Employee e, Connection thisConnection){
         try {
             PreparedStatement preparedStatement = thisConnection.prepareStatement(
-//          Insert SQL Statement Here
-          "insert INTO `tester`.`employees` (`emp_id`,`name_prefix`,`first_name`, `middle_initial`, " +
-                            "`last_name`, `gender`,`email`, `dob`, `date_joined`, `salary`) " +
+                   "insert INTO `tester`.`employees` (`emp_id`,`name_prefix`,`first_name`, `middle_initial`, " +
+                          "`last_name`, `gender`,`email`, `dob`, `date_joined`, `salary`) " +
                             "values (?,?,?,?,?,?,?,?,?,?)");
 
 
@@ -96,7 +95,7 @@ public class EmployeeDataAccessObject {
 
 
     public static void insertListOfEmployees(ArrayList<Employee> employeeList, Connection thisConnection){
-        //System.out.println("Populating Database with Employee List...");
+        System.out.println("Implementing EmployeeList into Database...");
         for(Employee employee: employeeList){
             insertData(employee, thisConnection);
         }
@@ -105,8 +104,7 @@ public class EmployeeDataAccessObject {
 
         try {
             PreparedStatement preparedStatement = thisConnection.prepareStatement(
-        //Insert SQL Statement here
-                         "insert INTO `tester`.`employees` (`emp_id`,`name_prefix`,`first_name`, `middle_initial`, " +
+                   "insert INTO `tester`.`employees` (`emp_id`,`name_prefix`,`first_name`, `middle_initial`, " +
                             "`last_name`, `gender`,`email`, `dob`, `date_joined`, `salary`) " +
                             "values (?,?,?,?,?,?,?,?,?,?)");
 
