@@ -38,6 +38,7 @@ Records that are valid in format but have questionable values will be added to
 The following technologies & libraries were used in the creation of this software:
 - JetBrains IntelliJ Ultimate
 - GitHub
+- Oracle's MySQL
 - JUnit 5 Jupiter
 - Apache Log4j 2
 
