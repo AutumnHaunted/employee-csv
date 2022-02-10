@@ -1,6 +1,12 @@
 # Employee CSV
 ***a program for converting a .csv of employee data to a mysql database***
 
+## Contents
+- [CSV Format](readme.md#csv-format)
+- [Using the program](readme.md#using-the-program)
+- [Technologies used](readme.md#technologies-used)
+- [Scrum Process](readme.md#scrum-process)
+
 ## CSV Format
 The program expects CSV files with records in the following format:
 
@@ -10,7 +16,7 @@ The program expects CSV files with records in the following format:
 |178566|Mrs.|Juliette|M|Rojo|F|juliette.rojo@yahoo.co.uk|5/8/1967|6/4/2011|193912|
 |647173|Mr.|Milan|F|Krawczyk|M|milan.krawczyk@hotmail.com|4/4/1980|1/19/2012|123681|
 |847634|Mr.|Elmer|R|Jason|M|elmer.jason@yahoo.com|4/9/1996|5/28/2017|93504|
-|...|
+|...|...|...|...|...|...|...|...|...|...|
 
 The file *can* have a header, but the first entry in the header row must be `Emp ID` exactly.
 
