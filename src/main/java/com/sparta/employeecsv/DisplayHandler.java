@@ -19,7 +19,7 @@ public class DisplayHandler {
         try {
             properties.load(new FileReader("src/main/resources/<insert.propertiesFileNameHere>"));
         } catch (IOException e) {
-            e.printStackTrace();
+            printException(e);
         }
 
 
