@@ -2,10 +2,10 @@
 ***a program for converting a .csv of employee data to a mysql database***
 
 ## Contents
-- [CSV Format](readme.md#csv-format)
-- [Using the program](readme.md#using-the-program)
-- [Technologies used](readme.md#technologies-used)
-- [Scrum Process](readme.md#scrum-process)
+- [CSV Format](README.md#csv-format)
+- [Using the program](README.md#using-the-program)
+- [Technologies used](README.md#technologies-used)
+- [Scrum Process](README.md#scrum-process)
 
 ## CSV Format
 The program expects CSV files with records in the following format:
