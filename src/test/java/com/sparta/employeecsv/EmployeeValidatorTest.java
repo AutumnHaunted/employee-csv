@@ -25,14 +25,14 @@ public class EmployeeValidatorTest {
 //         boolean actual = validate.isUnique(emp2);
 
         Employee emp1 = new Employee(123456, "Mr.","Harry",'I',"Lewis", 'M',
-                "harryh@h.com", "09/14/1994", "13/12/13",60000);
+                "harryh@h.com", "09/14/1994", "12/12/2013",60000);
 
         Employee emp2 = new Employee(123456, "Mr.","Harry",'I',"Lewis", 'M',
-                "harryh@h.com", "09/14/1994", "13/12/13",60000);
+                "harryh@h.com", "09/14/1994", "12/12/2013",60000);
 
-
-
-        boolean actual = EmployeeValidator.isUnique(emp2);
+        EmployeeList el = new EmployeeList();
+        el.addToEmployees(emp1);
+        boolean actual = EmployeeValidator.isUnique(el,emp2);
 
         boolean expected = false;
         assertEquals(expected, actual);
@@ -41,13 +41,15 @@ public class EmployeeValidatorTest {
     @DisplayName("Given a unique employee id, return true")
     public void givenAUniqueEmpID_ReturnTrue() throws ParseException {
         Employee emp1 = new Employee(123456, "Mr.","Harry",'I',"Lewis", 'M',
-                "harryh@h.com", "09/14/1994", "13/12/13",60000);
+                "harryh@h.com", "09/14/1994", "12/12/2013",60000);
 
         Employee emp2 = new Employee(123457, "Mr.","Harry",'I',"Lewis", 'M',
-                "harryh@h.com", "09/14/1994", "13/12/13",60000);
+                "harryh@h.com", "09/14/1994", "12/12/2013",60000);
 
+        EmployeeList el = new EmployeeList();
+        el.addToEmployees(emp1);
+        boolean actual = EmployeeValidator.isUnique(el,emp2);
 
-        boolean actual = EmployeeValidator.isUnique(emp2);
         boolean expected = true;
         assertEquals(expected, actual);
     }
@@ -56,7 +58,7 @@ public class EmployeeValidatorTest {
     @DisplayName("Given a  valid employee return true")
     public void givenAValidEmployee_ReturnTrue() throws ParseException {
         Employee emp1 = new Employee(123456, "Mr.","Harry",'I',"Lewis", 'M',
-                "harryh@h.com", "09/14/1994", "13/12/13",60000);
+                "harryh@h.com", "09/14/1994", "12/12/2013",60000);
         boolean actual = EmployeeValidator.validate(emp1);
         boolean expected =  true;
         assertEquals(expected, actual);
@@ -66,7 +68,7 @@ public class EmployeeValidatorTest {
     @DisplayName("Given an invalid employee prefix return false")
     public void givenAnInvalidEmployeePrefix_ReturnFalse() throws ParseException {
         Employee emp1 = new Employee(123456, "","Harry",'I',"Lewis", 'M',
-                "harryh@h.com", "09/14/1994", "13/12/13",60000);
+                "harryh@h.com", "09/14/1994", "12/12/2013",60000);
         boolean actual = EmployeeValidator.validate(emp1);
         boolean expected = false;
         assertEquals(expected,actual);
@@ -77,7 +79,7 @@ public class EmployeeValidatorTest {
     @DisplayName("Given an invalid employee prefix return false")
     public void givenAnInvalidEmployeeGender_ReturnFalse() throws ParseException {
         Employee emp1 = new Employee(123456, "Mr.","Harry",'I',"Lewis", 'I',
-                "harryh@h.com", "09/14/1994", "13/12/13",60000);
+                "harryh@h.com", "09/14/1994", "12/12/2013",60000);
         boolean actual = EmployeeValidator.validate(emp1);
         boolean expected = false;
         assertEquals(expected,actual);
@@ -86,7 +88,7 @@ public class EmployeeValidatorTest {
     @DisplayName("Given an invalid employee prefix return false")
     public void givenAnInvalidEmployeeEmail_ReturnFalse() throws ParseException {
         Employee emp1 = new Employee(123456, "","Harry",'I',"Lewis", 'M',
-                "harryhh.com", "09/14/1994", "13/12/13",60000);
+                "harryhh.com", "09/14/1994", "12/12/2013",60000);
         boolean actual = EmployeeValidator.validate(emp1);
         boolean expected = false;
         assertEquals(expected,actual);
