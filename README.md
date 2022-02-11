@@ -6,6 +6,7 @@
 - [Using the program](README.md#using-the-program)
 - [Technologies used](README.md#technologies-used)
 - [Scrum Process](README.md#scrum-process)
+- [Performance with & without use of lambdas in the CSV read](README>MD#performance-with-&-without-use-of-lambdas-in-the-csv-read)
 
 ## CSV Format
 The program expects CSV files with records in the following format:
@@ -28,7 +29,7 @@ While reading the file, the program will indicate if any records are invalid and
 > The following record is not a valid employee: 
 
 After the file is read, the user will be prompted to enter a number of threads for the program to run on while inserting the read data into the database.
-> Please enter the desired number of threads (1-20):
+> Please enter the number of threads you would like (1 - 20): 
 
 Each record that can be successfully read will be added to a different table in the output database one table at a time using the specified number of threads:
 - Valid records will be added to the main table.
@@ -47,4 +48,9 @@ The following technologies & libraries were used in the creation of this softwar
 Autumn Pelešová was the Scrum Master, and was responsible for organizing scrums and delegating development responsibility among the group for each sprint
 Andy Murray created and maintained the Trello board.
 For an example of how we used Trello for our scrum development, here is a screenshot from Thursday afternoon:
-![Trello Thu PM](img/trello-thu-pm.png)
+![Trello board on Thursday afternoon](img/trello-thu-pm.png)
+and here is a screenshot from Friday afternoon:
+![Trello board on Friday afternoon](img/trello-fri-pm.png)
+
+## Performance with & without use of lambdas in the CSV read
+The difference in performance between the readCSV method before and after refactoring it to utilise lambdas was not statistically significant either way and varied between tests. With a large enough sample size, we may have seen more of a trend, but that's just our speculation for now.
