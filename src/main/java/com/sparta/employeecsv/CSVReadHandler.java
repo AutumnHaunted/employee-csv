@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.stream.Stream;
 
 public class CSVReadHandler {
 
@@ -11,9 +13,12 @@ public class CSVReadHandler {
 
     public static EmployeeList readCSV(String filePath) {
         EmployeeList el = new EmployeeList();
-        String curLine;
-        String[] curLineCols;
         Employee curEmployee;
+
+        getCSVLines(filePath).stream()
+                .map(line -> line.split(STRING_DELIMITER))
+                .forEach(line -> {/*add to the correct list in el*/});
+
 
         try(BufferedReader br = new BufferedReader(new FileReader(filePath))){
             while((curLine = br.readLine()) != null) {
@@ -52,6 +57,19 @@ public class CSVReadHandler {
             DisplayHandler.printException(e);
         }
         return el;
+    }
+
+    private static ArrayList<String> getCSVLines(String filePath) {
+        ArrayList<String> csvLines = new ArrayList<>();
+        String curLine;
+        try(BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            while ((curLine = br.readLine()) != null) {
+                csvLines.add(curLine);
+            }
+        } catch (IOException e) {
+            DisplayHandler.printException(e);
+        }
+        return csvLines;
     }
 
 }
