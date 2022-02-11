@@ -11,24 +11,53 @@ public class Main {
     public static void main(String[] args) throws SQLException, IOException {
 
         Main.logger.info("Program started");
-        long startTotal = System.currentTimeMillis();
+        String filePath = DisplayHandler.getFilePath();
         System.out.println("Reading in .csv file...");
-        long startReadFile = System.currentTimeMillis();
+        EmployeeList el = CSVReadHandler.readCSV(filePath);
 
-        EmployeeList el = CSVReadHandler.readCSV(DisplayHandler.getFilePath());
+        logger.info("Writing to Employee");
+        int numberOfThreads = DisplayHandler.getThreads();
+        boolean choice = false; // for questionable
 
-        // EmployeeList employeeList = CSVReadHandler.readValues("src/main/resources/EmployeeRecordsLarge.csv");
-        System.out.println("Time taken to read in data: " + (System.currentTimeMillis() - startReadFile) + " ms");
+        long startTime = System.currentTimeMillis();
+        /*
+        Calls to create threads and start connecting to the database
+        and inputting data for ****VALID EMPLOYEES****
+         */
+        long endTime = System.currentTimeMillis();
+        DisplayHandler.printTimeTaken(startTime, endTime);
+        DisplayHandler.printEmployeeList(el, choice);
 
-        logger.info("Time taken to read in data from csv: " + (System.currentTimeMillis() - startReadFile) + " ms");
-        System.out.println("Filtering .csv file...");
-        long startFilter = System.currentTimeMillis();
-        //employeeList.filterEmployees();
+        logger.info("Writing to duplicates");
+        startTime = System.currentTimeMillis();
+        /*
+        Calls to create threads and start connecting to the database
+        and inputting data for ****DUPLICATES****
+         */
+        endTime = System.currentTimeMillis();
+        DisplayHandler.printTimeTaken(startTime, endTime);
+        DisplayHandler.printEmployeeList(el, choice);
 
-        long timeTaken = startFilter - startTotal;
-        DisplayHandler.printValidEmployee(el, timeTaken);
-        System.out.println("------------------------");
-        EmployeeDataAccessObject.getConnection();
-        System.out.println("------------------------");
+
+        logger.info("Writing to questionables table");
+        startTime = System.currentTimeMillis();
+        /*
+        Calls to create threads and start connecting to the database
+        and inputting data for *****QUESTIONABLES*****
+         */
+        endTime = System.currentTimeMillis();
+        DisplayHandler.printTimeTaken(startTime, endTime);
+        choice = DisplayHandler.getQuestionableChoice();
+        DisplayHandler.printEmployeeList(el, choice);
+
+
+
+
+
+//        logger.info("Time taken to read in data from csv: " );
+//        long startTotal = System.currentTimeMillis();
+//        System.out.println("------------------------");
+//        EmployeeDataAccessObject.getConnection();
+//        System.out.println("------------------------");
     }
 }
