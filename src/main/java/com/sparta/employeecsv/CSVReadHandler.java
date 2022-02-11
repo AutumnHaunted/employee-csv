@@ -15,16 +15,16 @@ public class CSVReadHandler {
     private static String STRING_DELIMITER = ",";
 
     public static EmployeeList readCSV(String filePath) {
-        EmployeeList el = new EmployeeList();
+        var wrapper = new Object(){ EmployeeList el = new EmployeeList(); };
         
-        Stream<Employee> csvStream = getCSVLines(filePath).stream().map(line -> line.split(STRING_DELIMITER)).map(line -> generateEmployee(line));
-        Map<String, List<Employee>> groups = csvStream.collect(Collectors.groupingBy(e -> groupEmployee(el, e)));
+         getCSVLines(filePath).stream().map(line -> generateEmployee(line.split(STRING_DELIMITER))).forEach(e -> {
+            if(EmployeeValidator.validate(e)) {
+                if(EmployeeValidator.isUnique(wrapper.el, e)) wrapper.el.addToEmployees(e);
+                else wrapper.el.addToDuplicates(e);
+            } else wrapper.el.addToQuestionables(e);
+        });
 
-        groups.get("employees").forEach(el::addToEmployees);
-        groups.get("duplicates").forEach(el::addToDuplicates);
-        groups.get("questionables").forEach(el::addToQuestionables);
-
-        return el;
+        return wrapper.el;
     }
 
     private static ArrayList<String> getCSVLines(String filePath) {
@@ -61,13 +61,6 @@ public class CSVReadHandler {
             DisplayHandler.printInvalidEmployee(line);
         } // else
         return null;
-    }
-
-    private static String groupEmployee(EmployeeList el,Employee e) {
-        if(EmployeeValidator.validate(e)) {
-            if(EmployeeValidator.isUnique(el, e)) return "employees";
-            else return "duplicates";
-        } else return "questionables";
     }
 
 }
