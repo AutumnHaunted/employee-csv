@@ -21,7 +21,6 @@ public class Main {
         System.out.println("Time taken to read in data: " + (System.currentTimeMillis() - startReadFile) + " ms");
 
         logger.info("Time taken to read in data from csv: " + (System.currentTimeMillis() - startReadFile) + " ms");
-
         System.out.println("Filtering .csv file...");
         long startFilter = System.currentTimeMillis();
         //employeeList.filterEmployees();
