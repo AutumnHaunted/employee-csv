@@ -5,6 +5,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CSVReadHandler {
@@ -13,49 +16,14 @@ public class CSVReadHandler {
 
     public static EmployeeList readCSV(String filePath) {
         EmployeeList el = new EmployeeList();
-        Employee curEmployee;
+        
+        Stream<Employee> csvStream = getCSVLines(filePath).stream().map(line -> line.split(STRING_DELIMITER)).map(line -> generateEmployee(line));
+        Map<String, List<Employee>> groups = csvStream.collect(Collectors.groupingBy(e -> groupEmployee(e)));
 
-        getCSVLines(filePath).stream()
-                .map(line -> line.split(STRING_DELIMITER))
-                .forEach(line -> {/*add to the correct list in el*/});
+        groups.get("employees").forEach(el::addToEmployees);
+        groups.get("duplicates").forEach(el::addToDuplicates);
+        groups.get("questionables").forEach(el::addToQuestionables);
 
-
-        try(BufferedReader br = new BufferedReader(new FileReader(filePath))){
-            while((curLine = br.readLine()) != null) {
-                curLineCols = curLine.split(STRING_DELIMITER);
-                for(int i = 0; i < curLineCols.length; i++) curLineCols[i] = curLineCols[i].trim();
-                try {
-                    curEmployee = new Employee( Integer.parseInt(curLineCols[0]),
-                                                curLineCols[1],
-                                                curLineCols[2],
-                                                curLineCols[3].toUpperCase().charAt(0),
-                                                curLineCols[4],
-                                                curLineCols[5].toUpperCase().charAt(0),
-                                                curLineCols[6],
-                                                curLineCols[7],
-                                                curLineCols[8],
-                                                Integer.parseInt(curLineCols[9]));
-                    if(EmployeeValidator.validate(curEmployee)) {
-                        if(EmployeeValidator.isUnique(curEmployee)) {
-                            el.addToEmployees(curEmployee);
-                        } else {
-                            el.addToDuplicates(curEmployee);
-                        }
-                    } else {
-                        el.addToQuestionables(curEmployee);
-                    }
-                } catch(IllegalArgumentException e) {
-                    if(!curLineCols[0].equals("Emp ID")) DisplayHandler.printInvalidEmployee(curLineCols);
-                } catch(ArrayIndexOutOfBoundsException e) {
-                    DisplayHandler.printInvalidEmployee(curLineCols);
-                } catch(ParseException e) {
-                    System.out.println(e.getClass().getName());
-                    DisplayHandler.printInvalidEmployee(curLineCols);
-                }
-            }
-        } catch(IOException e) {
-            DisplayHandler.printException(e);
-        }
         return el;
     }
 
@@ -70,6 +38,36 @@ public class CSVReadHandler {
             DisplayHandler.printException(e);
         }
         return csvLines;
+    }
+
+    private static Employee generateEmployee(String[] line) {
+        try {
+            return new Employee( Integer.parseInt(line[0]),
+                    line[1],
+                    line[2],
+                    line[3].toUpperCase().charAt(0),
+                    line[4],
+                    line[5].toUpperCase().charAt(0),
+                    line[6],
+                    line[7],
+                    line[8],
+                    Integer.parseInt(line[9]));
+        } catch(IllegalArgumentException e) {
+            if(!line[0].equals("Emp ID")) DisplayHandler.printInvalidEmployee(line);
+        } catch(ArrayIndexOutOfBoundsException e) {
+            DisplayHandler.printInvalidEmployee(line);
+        } catch(ParseException e) {
+            System.out.println(e.getClass().getName());
+            DisplayHandler.printInvalidEmployee(line);
+        } // else
+        return null;
+    }
+
+    private static String groupEmployee(Employee e) {
+        if(EmployeeValidator.validate(e)) {
+            if(EmployeeValidator.isUnique(e)) return "employees";
+            else return "duplicates";
+        } else return "questionables";
     }
 
 }
