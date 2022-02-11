@@ -13,10 +13,12 @@ import static com.sparta.employeecsv.Main.logger;
 public class EmployeeThread implements Runnable {
         private ArrayList<Employee> employeeList;
         private Connection connection;
+        private String employee;
         private static final Properties properties = new Properties();
 
-        public EmployeeThread(ArrayList<Employee> employeeList){
+        public EmployeeThread(ArrayList<Employee> employeeList, String employee){
             this.employeeList = employeeList;
+            this.employee= employee;
 
         }
 
@@ -41,7 +43,9 @@ public class EmployeeThread implements Runnable {
             try {
                 connection = DriverManager.getConnection(url,username,password);
                 start = System.currentTimeMillis();
-                EmployeeDataAccessObject.insertInBatches(employeeList,connection);
+                //EmployeeDataAccessObject.insertInBatches(employeeList,employee,connection);
+                EmployeeDataAccessObject.dropAndCreateTable(employeeList,employee,connection);
+
                 connection.close();
 
             } catch (SQLException throwables) {

@@ -7,8 +7,9 @@ import java.util.regex.*;
 
 public class EmployeeValidator {
 
+
     public static boolean validate(Employee emp) {
-        if (validateNamePrefix(emp.getPrefix()) && validateGender(emp.getGender()) && validateEmail(emp.getEmail())) {
+        if ((emp != null) && validateNamePrefix(emp.getPrefix()) && validateGender(emp.getGender()) && validateEmail(emp.getEmail())) {
             return true;
         }
         ;
