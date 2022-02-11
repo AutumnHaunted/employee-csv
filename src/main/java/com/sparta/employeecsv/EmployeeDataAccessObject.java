@@ -1,40 +1,46 @@
 package com.sparta.employeecsv;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
-import java.time.LocalDate;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import java.sql.SQLException;
+
 public class EmployeeDataAccessObject {
-    private static Connection connection;
-    private static final Properties properties = new Properties();
+    private static Connection connection = null;
+
+    public static Connection getConnection() throws SQLException,IOException {
+        if(connection==null) {
+            Properties props = new Properties();
+            try {
+                props.load(new FileReader("mysql.properties"));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            connection = DriverManager.getConnection(
+                    props.getProperty("db.url"),
+                    props.getProperty("db.userID"),
+                    props.getProperty("db.password"));
+            //jdbc: what you are using : ip address or machine : port number : database
+            return connection;
+        }
+        return connection;
+    }
 
 
-    private static void createProperties(){
-        try{
-            properties.load(new FileReader("src/main/resources/<Insert.propertiesFileNameHere>"));
-        }catch (IOException e){
-            e.printStackTrace();
+
+    public  static void closeConnection() throws SQLException{
+        if (connection!=null){
+            connection.close();
         }
     }
 
-    public static void connectToDataBase(String url){
-        createProperties();
-        String username = properties.getProperty("username");
-        String password = properties.getProperty("password");
-
-        try{
-            connection = DriverManager.getConnection(url,username,password);
-
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-
-        System.out.println("Connected to DataBase");
-
-    }
 
     public static void queryDataBase(String query){
         StringBuilder sb = new StringBuilder();
@@ -65,8 +71,9 @@ public class EmployeeDataAccessObject {
     public static void insertData(Employee e, Connection thisConnection){
         try {
             PreparedStatement preparedStatement = thisConnection.prepareStatement(
-                   "insert INTO `tester`.`employees` (`emp_id`,`name_prefix`,`first_name`, `middle_initial`, " +
-                          "`last_name`, `gender`,`email`, `dob`, `date_joined`, `salary`) " +
+//          Insert SQL Statement Here
+          "insert INTO `employeelist`.`employee` (`EmpID`,`Prefix`,`First_Name`, `Middle_Initial`, " +
+                            "`Last_Name`, `Gender`,`Email`, `Date_Of_Birth`, `Date_Of_Joining`, `Salary`) " +
                             "values (?,?,?,?,?,?,?,?,?,?)");
 
 
@@ -95,7 +102,7 @@ public class EmployeeDataAccessObject {
 
 
     public static void insertListOfEmployees(ArrayList<Employee> employeeList, Connection thisConnection){
-        System.out.println("Implementing EmployeeList into Database...");
+        //System.out.println("Populating Database with Employee List...");
         for(Employee employee: employeeList){
             insertData(employee, thisConnection);
         }
@@ -104,8 +111,9 @@ public class EmployeeDataAccessObject {
 
         try {
             PreparedStatement preparedStatement = thisConnection.prepareStatement(
-                   "insert INTO `tester`.`employees` (`emp_id`,`name_prefix`,`first_name`, `middle_initial`, " +
-                            "`last_name`, `gender`,`email`, `dob`, `date_joined`, `salary`) " +
+        //Insert SQL Statement here
+                    "insert INTO `employeelist`.`employee` (`EmpID`,`Prefix`,`First_Name`, `Middle_Initial`, " +
+                            "`Last_Name`, `Gender`,`Email`, `Date_Of_Birth`, `Date_Of_Joining`, `Salary`) " +
                             "values (?,?,?,?,?,?,?,?,?,?)");
 
             for(Employee employee : employeeList) {
@@ -117,6 +125,31 @@ public class EmployeeDataAccessObject {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+    private static void insertPrepared() throws SQLException {
+        PreparedStatement preparedStatement= null;
+        try{
+            Connection connection= getConnection();
+            System.out.println(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection();
+        }
+    }
+
+    public static void main(String[] args) throws SQLException, IOException {
+        Employee e = null;
+        try {
+            e = new Employee(198429, "Mrs.", "Serafina", 'I', "Bumgarner", 'F', "serafina.bumgarner@exxonmobil.com", "9/21/1982", "2/1/2008", 69294);
+            insertData(e, getConnection());
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+
+
     }
 }
 
