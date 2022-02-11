@@ -11,16 +11,6 @@ import java.sql.SQLException;
 
 public class EmployeeDataAccessObject {
     private static Connection connection = null;
-    private static final Properties properties = new Properties();
-
-
-    private static void createProperties(){
-        try{
-            properties.load(new FileReader("src/main/resources/<Insert.propertiesFileNameHere>"));
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-    }
 
     public static Connection getConnection() throws SQLException,IOException {
         if(connection==null) {
@@ -37,11 +27,13 @@ public class EmployeeDataAccessObject {
                     props.getProperty("db.userID"),
                     props.getProperty("db.password"));
             //jdbc: what you are using : ip address or machine : port number : database
-            System.out.println("Connected");
             return connection;
         }
         return connection;
     }
+
+
+
     public  static void closeConnection() throws SQLException{
         if (connection!=null){
             connection.close();
@@ -137,16 +129,7 @@ public class EmployeeDataAccessObject {
         PreparedStatement preparedStatement= null;
         try{
             Connection connection= getConnection();
-            //? is a placeholder
-            //sql syntax INSERT INTO actor (first_name,last_name) VALUES (?,?)
-            preparedStatement = connection.prepareStatement(
-                    "UPDATE actor SET last_name = ? where actor_id= ?");
-            preparedStatement.setString(1,"Master");
-            preparedStatement.setInt(2,199);
-            preparedStatement.executeUpdate();
-            int rowsAffected =preparedStatement.executeUpdate();
-            System.out.println(rowsAffected);
-            preparedStatement.close();
+            System.out.println(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -155,8 +138,9 @@ public class EmployeeDataAccessObject {
             closeConnection();
         }
     }
-    public static void main(String[] args) throws SQLException {
-        insertPrepared();
+
+    public static void main(String[] args) throws SQLException, IOException {
+        getConnection();
 
     }
 }
