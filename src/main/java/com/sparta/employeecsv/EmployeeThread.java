@@ -52,8 +52,8 @@ public class EmployeeThread implements Runnable {
                 throwables.printStackTrace();
             }
 
-            System.out.println(Thread.currentThread().getName() + " complete! Took " + (System.currentTimeMillis() - start) + " ms");
-            logger.info(Thread.currentThread().getName() + " complete! Took " + (System.currentTimeMillis() - start) + " ms");
+            System.out.println(Thread.currentThread().getName() + " Complete! Took " + (System.currentTimeMillis() - start) + " ms");
+            logger.info(Thread.currentThread().getName() + " Complete! Took " + (System.currentTimeMillis() - start) + " ms");
         }
     }
 
