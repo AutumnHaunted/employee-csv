@@ -18,7 +18,7 @@ public class CSVReadHandler {
         EmployeeList el = new EmployeeList();
         
         Stream<Employee> csvStream = getCSVLines(filePath).stream().map(line -> line.split(STRING_DELIMITER)).map(line -> generateEmployee(line));
-        Map<String, List<Employee>> groups = csvStream.collect(Collectors.groupingBy(e -> groupEmployee(e)));
+        Map<String, List<Employee>> groups = csvStream.collect(Collectors.groupingBy(e -> groupEmployee(el, e)));
 
         groups.get("employees").forEach(el::addToEmployees);
         groups.get("duplicates").forEach(el::addToDuplicates);
@@ -63,9 +63,9 @@ public class CSVReadHandler {
         return null;
     }
 
-    private static String groupEmployee(Employee e) {
+    private static String groupEmployee(EmployeeList el,Employee e) {
         if(EmployeeValidator.validate(e)) {
-            if(EmployeeValidator.isUnique(e)) return "employees";
+            if(EmployeeValidator.isUnique(el, e)) return "employees";
             else return "duplicates";
         } else return "questionables";
     }

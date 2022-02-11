@@ -6,28 +6,25 @@ import java.util.HashMap;
 import java.util.regex.*;
 
 public class EmployeeValidator {
-    private static HashMap<Integer, Employee> uniqueEmployees;
-
-
-    EmployeeValidator(){
-        uniqueEmployees = new HashMap<Integer, Employee>();
-    }
 
 
     public static boolean validate(Employee emp) {
-        if ((emp != null) && validateNamePrefix(emp.getPrefix()) && validateGender(emp.getGender()) && validateEmail(emp.getEmail())){
+        if ((emp != null) && validateNamePrefix(emp.getPrefix()) && validateGender(emp.getGender()) && validateEmail(emp.getEmail())) {
             return true;
-        };
-    return false;
+        }
+        ;
+        return false;
     }
-    private static boolean validateNamePrefix(String prefix){
-        if (prefix.equals("Mrs.") || prefix.equals("Mr.") || prefix.equals("Dr.")|| prefix.equals("Hon.")|| prefix.equals("Ms.") || prefix.equals("Drs.") || prefix.equals("Prof.")){
+
+    private static boolean validateNamePrefix(String prefix) {
+        if (prefix.equals("Mrs.") || prefix.equals("Mr.") || prefix.equals("Dr.") || prefix.equals("Hon.") || prefix.equals("Ms.") || prefix.equals("Drs.") || prefix.equals("Prof.")) {
             return true;
         }
         return false;
     }
-    private static boolean validateGender(char gender){
-        if (gender == 'M' || gender == 'F' || gender == 'X'){
+
+    private static boolean validateGender(char gender) {
+        if (gender == 'M' || gender == 'F' || gender == 'X') {
             return true;
         }
         return false;
@@ -45,11 +42,14 @@ public class EmployeeValidator {
     }
 
 
-    public static boolean isUnique(Employee emp){
-            if (uniqueEmployees.containsKey(emp.getEmpID())) {
+    public static boolean isUnique(EmployeeList el, Employee emp) {
+
+        for (int i = 0; i < el.getEmployees().size(); i++) {
+            if (el.getEmployees().get(i).getEmpID()== emp.getEmpID()){
                 return false;
             }
-            uniqueEmployees.put(emp.getEmpID(), emp);
-            return true;
+
         }
+        return true;
     }
+}

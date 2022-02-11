@@ -11,23 +11,23 @@ public class Main {
     public static void main(String[] args) throws SQLException, IOException {
 
         Main.logger.info("Program started");
-        long startTotal = System.currentTimeMillis();
+        String filePath = DisplayHandler.getFilePath();
         System.out.println("Reading in .csv file...");
-        long startReadFile = System.currentTimeMillis();
+//        long startReadFile = System.currentTimeMillis();
 
         EmployeeList el = CSVReadHandler.readCSV(DisplayHandler.getFilePath());
 
         // EmployeeList employeeList = CSVReadHandler.readValues("src/main/resources/EmployeeRecordsLarge.csv");
-        System.out.println("Time taken to read in data: " + (System.currentTimeMillis() - startReadFile) + " ms");
+        System.out.println("Time taken to read in data: " );
 
-        logger.info("Time taken to read in data from csv: " + (System.currentTimeMillis() - startReadFile) + " ms");
-
+        logger.info("Time taken to read in data from csv: " );
+        long startTotal = System.currentTimeMillis();
         System.out.println("Filtering .csv file...");
         long startFilter = System.currentTimeMillis();
         //employeeList.filterEmployees();
-
+        boolean choice = false; // for questionable
         long timeTaken = startFilter - startTotal;
-        DisplayHandler.printValidEmployee(el, timeTaken);
+        DisplayHandler.printEmployeeList(el, choice);
         System.out.println("------------------------");
         EmployeeDataAccessObject.getConnection();
         System.out.println("------------------------");
