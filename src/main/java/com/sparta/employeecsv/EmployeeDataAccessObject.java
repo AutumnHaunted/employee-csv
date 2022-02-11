@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -71,8 +72,8 @@ public class EmployeeDataAccessObject {
         try {
             PreparedStatement preparedStatement = thisConnection.prepareStatement(
 //          Insert SQL Statement Here
-          "insert INTO `tester`.`employees` (`emp_id`,`name_prefix`,`first_name`, `middle_initial`, " +
-                            "`last_name`, `gender`,`email`, `dob`, `date_joined`, `salary`) " +
+          "insert INTO `employeelist`.`employee` (`EmpID`,`Prefix`,`First_Name`, `Middle_Initial`, " +
+                            "`Last_Name`, `Gender`,`Email`, `Date_Of_Birth`, `Date_Of_Joining`, `Salary`) " +
                             "values (?,?,?,?,?,?,?,?,?,?)");
 
 
@@ -111,8 +112,8 @@ public class EmployeeDataAccessObject {
         try {
             PreparedStatement preparedStatement = thisConnection.prepareStatement(
         //Insert SQL Statement here
-                         "insert INTO `tester`.`employees` (`emp_id`,`name_prefix`,`first_name`, `middle_initial`, " +
-                            "`last_name`, `gender`,`email`, `dob`, `date_joined`, `salary`) " +
+                    "insert INTO `employeelist`.`employee` (`EmpID`,`Prefix`,`First_Name`, `Middle_Initial`, " +
+                            "`Last_Name`, `Gender`,`Email`, `Date_Of_Birth`, `Date_Of_Joining`, `Salary`) " +
                             "values (?,?,?,?,?,?,?,?,?,?)");
 
             for(Employee employee : employeeList) {
@@ -140,7 +141,14 @@ public class EmployeeDataAccessObject {
     }
 
     public static void main(String[] args) throws SQLException, IOException {
-        getConnection();
+        Employee e = null;
+        try {
+            e = new Employee(198429, "Mrs.", "Serafina", 'I', "Bumgarner", 'F', "serafina.bumgarner@exxonmobil.com", "9/21/1982", "2/1/2008", 69294);
+            insertData(e, getConnection());
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+
 
     }
 }
