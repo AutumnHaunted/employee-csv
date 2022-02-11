@@ -66,13 +66,12 @@ public class EmployeeDataAccessObject {
             e.printStackTrace();
         }
         System.out.println(sb.toString());
-
     }
-    public static void insertData(Employee e, Connection thisConnection){
+    public static void insertData(Employee e, String listName, Connection thisConnection){
         try {
             PreparedStatement preparedStatement = thisConnection.prepareStatement(
 //          Insert SQL Statement Here
-          "insert INTO `employeelist`.`employee` (`EmpID`,`Prefix`,`First_Name`, `Middle_Initial`, " +
+          "insert INTO `employeelist`.`"+listName+"` (`EmpID`,`Prefix`,`First_Name`, `Middle_Initial`, " +
                             "`Last_Name`, `Gender`,`Email`, `Date_Of_Birth`, `Date_Of_Joining`, `Salary`) " +
                             "values (?,?,?,?,?,?,?,?,?,?)");
 
@@ -100,55 +99,49 @@ public class EmployeeDataAccessObject {
         return preparedStatement;
     }
 
-
-    public static void insertListOfEmployees(ArrayList<Employee> employeeList, Connection thisConnection){
-        //System.out.println("Populating Database with Employee List...");
-        for(Employee employee: employeeList){
-            insertData(employee, thisConnection);
-        }
-    }
-    public static void insertInBatches(ArrayList<Employee> employeeList, Connection thisConnection)  {
-
+    public static void dropAndCreateTable(ArrayList<Employee> list,String listName, Connection thisConnection){
         try {
             PreparedStatement preparedStatement = thisConnection.prepareStatement(
-        //Insert SQL Statement here
-                    "insert INTO `employeelist`.`employee` (`EmpID`,`Prefix`,`First_Name`, `Middle_Initial`, " +
-                            "`Last_Name`, `Gender`,`Email`, `Date_Of_Birth`, `Date_Of_Joining`, `Salary`) " +
-                            "values (?,?,?,?,?,?,?,?,?,?)");
-
-            for(Employee employee : employeeList) {
-                preparedStatement = setEmployeeVars(preparedStatement, employee);
-                preparedStatement.addBatch();
+//                    {`EmpID`,`Prefix`,`First_Name`, `Middle_Initial`,  +
+//                    `Last_Name`, `Gender`,`Email`, `Date_Of_Birth`, `Date_Of_Joining`, `Salary`) }
+//          Insert SQL Statement Here
+                    "CREATE TABLE `employeelist`.`"+listName+"` (\n" +
+                            "                    \n" +
+                            "             `EmpID` INT NOT NULL,\n" +
+                            "            `Prefix` VARCHAR(45) NOT NULL,\n" +
+                            "                `First_Name` VARCHAR(45) NOT NULL,\n" +
+                            "            `Middle_Initial` Char(5) NOT NULL,\n" +
+                            "            `Last_Name` VARCHAR(45) NOT NULL,\n" +
+                            "                `Gender` CHAR (3) NOT NULL,\n" +
+                            "              `Email` VARCHAR (45) NOT NULL,\n" +
+                            "            `Date_Of_Birth` VARCHAR(45) NOT NULL,\n" +
+                            "                `Date_Of_Joining` VARCHAR(45) NOT NULL,\n" +
+                            "                    `Salary` INT NOT NULL,\n" +
+                            "                    PRIMARY KEY (`EmpID`));");
+            preparedStatement.execute();
+            for(Employee employee: list){
+                insertData(employee, listName, thisConnection);
             }
-            preparedStatement.executeBatch();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
-    private static void insertPrepared() throws SQLException {
-        PreparedStatement preparedStatement= null;
-        try{
-            Connection connection= getConnection();
-            System.out.println(connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            closeConnection();
-        }
-    }
+//finally {
+//        closeConnection();
+//    }
 
     public static void main(String[] args) throws SQLException, IOException {
-        Employee e = null;
+        ArrayList<Employee> employees = new ArrayList<>();
+        Employee e;
         try {
-            e = new Employee(198429, "Mrs.", "Serafina", 'I', "Bumgarner", 'F', "serafina.bumgarner@exxonmobil.com", "9/21/1982", "2/1/2008", 69294);
-            insertData(e, getConnection());
+            e = new Employee(19843, "Mrs.", "Serafina", 'I', "Bumgarner", 'F', "serafina.bumgarner@exxonmobil.com", "9/21/1982", "2/1/2008", 69294);
+            employees.add(e);
+            //insertData(e, getConnection());
+            dropAndCreateTable(employees,"testing3", getConnection());
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
-
 
     }
 }

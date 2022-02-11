@@ -18,10 +18,16 @@ public class Main {
         EmployeeList el = CSVReadHandler.readCSV(DisplayHandler.getFilePath());
 
         // EmployeeList employeeList = CSVReadHandler.readValues("src/main/resources/EmployeeRecordsLarge.csv");
+
         System.out.println("Time taken to read in data: " );
 
         logger.info("Time taken to read in data from csv: " );
         long startTotal = System.currentTimeMillis();
+
+        System.out.println("Time taken to read in data: " +  " ms");
+
+        logger.info("Time taken to read in data from csv: "  + " ms");
+
         System.out.println("Filtering .csv file...");
         long startFilter = System.currentTimeMillis();
         //employeeList.filterEmployees();
