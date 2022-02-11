@@ -40,7 +40,6 @@ public class EmployeeValidator {
         return false;
     }
 
-
     public static boolean isUnique(EmployeeList el, Employee emp) {
 
         for (int i = 0; i < el.getEmployees().size(); i++) {

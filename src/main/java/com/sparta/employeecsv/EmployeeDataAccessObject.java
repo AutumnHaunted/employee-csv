@@ -126,6 +126,30 @@ public class EmployeeDataAccessObject {
             throwables.printStackTrace();
         }
     }
+    public static void dropAndCreateTable(String listName, Connection thisConnection){
+        try {
+            PreparedStatement preparedStatement = thisConnection.prepareStatement(
+//          Insert SQL Statement Here
+                    "CREATE TABLE `employeelist`.`"+listName+"` (\n" +
+                            "                    \n" +
+                            "             `EmpID` INT NOT NULL,\n" +
+                            "            `Prefix` VARCHAR(45) NOT NULL,\n" +
+                            "                `First_Name` VARCHAR(45) NOT NULL,\n" +
+                            "            `Middle_Initial` INT NOT NULL,\n" +
+                            "            `Last_Name` VARCHAR(45) NOT NULL,\n" +
+                            "                `Gender` VARCHAR(45) NOT NULL,\n" +
+                            "              `Email` INT NOT NULL,\n" +
+                            "            `Date_Of_Birth` VARCHAR(45) NOT NULL,\n" +
+                            "                `Date_Of_Joining` VARCHAR(45) NOT NULL,\n" +
+                            "                    `Salary` INT NOT NULL,\n" +
+                            "                    PRIMARY KEY (`EmpID`));");
+
+            preparedStatement.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
     private static void insertPrepared() throws SQLException {
         PreparedStatement preparedStatement= null;
         try{
@@ -141,13 +165,15 @@ public class EmployeeDataAccessObject {
     }
 
     public static void main(String[] args) throws SQLException, IOException {
-        Employee e = null;
+        Employee e;
         try {
-            e = new Employee(198429, "Mrs.", "Serafina", 'I', "Bumgarner", 'F', "serafina.bumgarner@exxonmobil.com", "9/21/1982", "2/1/2008", 69294);
+            e = new Employee(198430, "Mrs.", "Serafina", 'I', "Bumgarner", 'F', "serafina.bumgarner@exxonmobil.com", "9/21/1982", "2/1/2008", 69294);
             insertData(e, getConnection());
+            dropAndCreateTable("hello", getConnection());
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
+
 
 
     }
