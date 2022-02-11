@@ -47,7 +47,11 @@ public class DisplayHandler {
             System.out.println(el.getEmployees().toString());
         }
     }
-
+    public static int getThreads(){
+        System.out.println("Please enter the number of threads you would like: ");
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextInt();
+    }
     public static void printInvalidEmployee(String[] entries) {
         System.out.println("The following record is not a valid employee: ");
         for(String s : entries) {
@@ -72,6 +76,7 @@ public class DisplayHandler {
     }
     public static void printTimeTaken(long startTime, long endTime){
         long timeTaken = endTime - startTime;
+        System.out.println("Finished in: "+timeTaken+" seconds.");
     }
     public static String getFilePath(){
         Scanner scanner = new Scanner(System.in);
