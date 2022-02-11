@@ -44,7 +44,7 @@ public class EmployeeDataAccessObject {
 
     public static void queryDataBase(String query){
         StringBuilder sb = new StringBuilder();
-        Statement statement = null;
+        Statement statement;
         try {
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
@@ -85,7 +85,7 @@ public class EmployeeDataAccessObject {
     }
 
     private static PreparedStatement setEmployeeVars(PreparedStatement preparedStatement, Employee e) throws SQLException {
-        preparedStatement.setInt(1,e.getEmpID());
+        preparedStatement.setInt(1, e.getEmpID());
         preparedStatement.setString(2, e.getPrefix());
         preparedStatement.setString(3, e.getFirstName());
         preparedStatement.setString(4, String.valueOf(e.getMiddleInitial()));
@@ -99,13 +99,23 @@ public class EmployeeDataAccessObject {
         return preparedStatement;
     }
 
-    public static void dropAndCreateTable(ArrayList<Employee> list,String listName, Connection thisConnection){
+    public static void dropTable(String listName, Connection thisConnection){
         try {
             PreparedStatement preparedStatement = thisConnection.prepareStatement(
-//                    {`EmpID`,`Prefix`,`First_Name`, `Middle_Initial`,  +
-//                    `Last_Name`, `Gender`,`Email`, `Date_Of_Birth`, `Date_Of_Joining`, `Salary`) }
+                    "DROP TABLE IF EXISTS `employeelist`.`"+listName+"`");
+            System.out.println("Table dropped:"+ listName);
+            preparedStatement.execute();
+    } catch (SQLException e) {
+            e.printStackTrace();
+        }}
+
+        public static void dropAndCreateTable(ArrayList<Employee> list,String listName, Connection thisConnection){
+        try {
+            dropTable(listName,thisConnection); //drops table if exists
+            PreparedStatement preparedStatement = thisConnection.prepareStatement(
 //          Insert SQL Statement Here
-                    "CREATE TABLE `employeelist`.`"+listName+"` (\n" +
+//                    "DROP TABLE IF EXISTS `employeelist`.`"+listName+"`;" +
+                            "CREATE TABLE `employeelist`.`"+listName+"` (\n" +
                             "                    \n" +
                             "             `EmpID` INT NOT NULL,\n" +
                             "            `Prefix` VARCHAR(45) NOT NULL,\n" +
@@ -139,6 +149,8 @@ public class EmployeeDataAccessObject {
             employees.add(e);
             //insertData(e, getConnection());
             dropAndCreateTable(employees,"testing3", getConnection());
+            queryDataBase("SELECT * FROM testing3;");
+            closeConnection();
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
