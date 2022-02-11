@@ -3,9 +3,12 @@ package com.sparta.employeecsv;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 public class Main {
     static Logger logger = LogManager.getLogger(DisplayHandler.class);
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, IOException {
 
         Main.logger.info("Program started");
         long startTotal = System.currentTimeMillis();
@@ -25,6 +28,8 @@ public class Main {
 
         long timeTaken = startFilter - startTotal;
         DisplayHandler.printValidEmployee(el, timeTaken);
-
+        System.out.println("------------------------");
+        EmployeeDataAccessObject.getConnection();
+        System.out.println("------------------------");
     }
 }
