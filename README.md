@@ -18,7 +18,7 @@ The program expects CSV files with records in the following format:
 |847634|Mr.|Elmer|R|Jason|M|elmer.jason@yahoo.com|4/9/1996|5/28/2017|93504|
 |...|...|...|...|...|...|...|...|...|...|
 
-The file *can* have a header, but the first entry in the header row must be `Emp ID` exactly.
+The file *can* have a header, but only if the first entry in the header row is `Emp ID` exactly.
 
 ## Using the program
 When the program starts, the user will be prompted to enter a file path of a csv for the program to read from.
@@ -27,12 +27,13 @@ When the program starts, the user will be prompted to enter a file path of a csv
 While reading the file, the program will indicate if any records are invalid and print them to the console.
 > The following record is not a valid employee: 
 
-Each record that can be successfully read will be added to a different table in the output database:
+After the file is read, the user will be prompted to enter a number of threads for the program to run on while inserting the read data into the database.
+> Please enter the desired number of threads (1-20):
+
+Each record that can be successfully read will be added to a different table in the output database one table at a time using the specified number of threads:
 - Valid records will be added to the main table.
 - Valid duplicate records will be added to their own table.
 - Records with valid formatting but invalid values will be added to their own table of "questionable" records.
-
-Records that are valid in format but have questionable values will be added to 
 
 ## Technologies used
 The following technologies & libraries were used in the creation of this software:
