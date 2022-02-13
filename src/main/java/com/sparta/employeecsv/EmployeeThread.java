@@ -4,26 +4,32 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.Clock;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Properties;
 
 import static com.sparta.employeecsv.Main.logger;
 
 public class EmployeeThread implements Runnable {
-        private ArrayList<Employee> employeeList;
-        private Connection connection;
-        private String employee;
-        private static final Properties properties = new Properties();
+    private final ArrayList<Employee> list;
+    private Connection connection;
+    private String tableName;
 
-        public EmployeeThread(ArrayList<Employee> employeeList, String employee){
-            this.employeeList = employeeList;
-            this.employee= employee;
 
-        }
 
-        private static void createProperties(){
-            try{
+    private static final Properties properties = new Properties();
+    public EmployeeThread(ArrayList<Employee> list, String tableName) throws SQLException {
+        this.list = list;
+        this.connection = EmployeeDataAccessObject.newConnection();
+        this.tableName = tableName;
+
+    }
+
+    private static void createProperties(){
+        try{
                 properties.load(new FileReader("src/main/resources/<Insert fileName.properties> here"));
             }catch (IOException e){
                 e.printStackTrace();
@@ -32,29 +38,27 @@ public class EmployeeThread implements Runnable {
 
         @Override
         public void run() {
-            createProperties();
-            String username = properties.getProperty("username");
-            String password = properties.getProperty("password");
-            String url = properties.getProperty("url");
-            url = url + "?rewriteBatchedStatements=true";
-
-            System.out.println(Thread.currentThread().getName() + " started");
-            long start = 0;
+            System.out.println(list.size());
+            System.out.println("starting" + ZonedDateTime.now());
+            populateDatabase();
+            System.out.println("finishing"+ ZonedDateTime.now());
             try {
-                connection = DriverManager.getConnection(url,username,password);
-                start = System.currentTimeMillis();
-                //EmployeeDataAccessObject.insertInBatches(employeeList,employee,connection);
-                EmployeeDataAccessObject.dropAndCreateTable(employeeList,employee,connection);
-
                 connection.close();
-
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-
-            System.out.println(Thread.currentThread().getName() + " Complete! Took " + (System.currentTimeMillis() - start) + " ms");
-            logger.info(Thread.currentThread().getName() + " Complete! Took " + (System.currentTimeMillis() - start) + " ms");
         }
+        public void populateDatabase(){
+
+            for (Employee employee : list) {
+
+                EmployeeDataAccessObject.insertData(employee, tableName, connection);
+
+
+            }
+        }
+
     }
+
 
 

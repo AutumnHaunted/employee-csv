@@ -10,23 +10,29 @@ import java.util.Properties;
 
 import java.sql.SQLException;
 
+import static com.sparta.employeecsv.Main.logger;
+
 public class EmployeeDataAccessObject {
     private static Connection connection = null;
+    public static Connection newConnection() throws SQLException {
+        Properties props = new Properties();
+        try {
+            props.load(new FileReader("mysql.properties"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return DriverManager.getConnection(
+                props.getProperty("db.url"),
+                props.getProperty("db.userID"),
+                props.getProperty("db.password"));
+        //jdbc: what you are using : ip address or machine : port number : database
 
+    }
     public static Connection getConnection() throws SQLException,IOException {
         if(connection==null) {
-            Properties props = new Properties();
-            try {
-                props.load(new FileReader("mysql.properties"));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            connection = DriverManager.getConnection(
-                    props.getProperty("db.url"),
-                    props.getProperty("db.userID"),
-                    props.getProperty("db.password"));
+            connection = newConnection();
             //jdbc: what you are using : ip address or machine : port number : database
             return connection;
         }
@@ -85,6 +91,7 @@ public class EmployeeDataAccessObject {
     }
 
     private static PreparedStatement setEmployeeVars(PreparedStatement preparedStatement, Employee e) throws SQLException {
+
         preparedStatement.setInt(1, e.getEmpID());
         preparedStatement.setString(2, e.getPrefix());
         preparedStatement.setString(3, e.getFirstName());
@@ -107,14 +114,15 @@ public class EmployeeDataAccessObject {
             preparedStatement.execute();
     } catch (SQLException e) {
             e.printStackTrace();
-        }}
+        }
+    }
 
-        public static void dropAndCreateTable(ArrayList<Employee> list,String listName, Connection thisConnection){
+
+    public static void dropAndCreateTable(String listName, Connection thisConnection){
         try {
             dropTable(listName,thisConnection); //drops table if exists
             PreparedStatement preparedStatement = thisConnection.prepareStatement(
-//          Insert SQL Statement Here
-//                    "DROP TABLE IF EXISTS `employeelist`.`"+listName+"`;" +
+
                             "CREATE TABLE `employeelist`.`"+listName+"` (\n" +
                             "                    \n" +
                             "             `EmpID` INT NOT NULL,\n" +
@@ -129,33 +137,22 @@ public class EmployeeDataAccessObject {
                             "                    `Salary` INT NOT NULL,\n" +
                             "                    PRIMARY KEY (`EmpID`));");
             preparedStatement.execute();
-            for(Employee employee: list){
-                insertData(employee, listName, thisConnection);
-            }
+//            if(list.contains(null)){
+//                logger.warn(listName + " is empty");
+//            }else {
+//                for (Employee employee : list) {
+//                    insertData(employee, listName, thisConnection);
+//                }
+//            }
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-    }
-//finally {
-//        closeConnection();
-//    }
-
-    public static void main(String[] args) throws SQLException, IOException {
-        ArrayList<Employee> employees = new ArrayList<>();
-        Employee e;
-        try {
-            e = new Employee(19843, "Mrs.", "Serafina", 'I', "Bumgarner", 'F', "serafina.bumgarner@exxonmobil.com", "9/21/1982", "2/1/2008", 69294);
-            employees.add(e);
-            //insertData(e, getConnection());
-            dropAndCreateTable(employees,"testing3", getConnection());
-            queryDataBase("SELECT * FROM testing3;");
-            closeConnection();
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
 
     }
+
+
+
 }
 
 
