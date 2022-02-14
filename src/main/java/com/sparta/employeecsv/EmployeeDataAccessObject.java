@@ -1,5 +1,8 @@
 package com.sparta.employeecsv;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,6 +14,7 @@ import java.util.Properties;
 import java.sql.SQLException;
 
 public class EmployeeDataAccessObject {
+    private static final Logger logger = LogManager.getLogger("EDAO logger:");
     private static Connection connection = null;
 
     public static Connection getConnection() throws SQLException {
@@ -28,6 +32,7 @@ public class EmployeeDataAccessObject {
                     props.getProperty("db.userID"),
                     props.getProperty("db.password"));
             //jdbc: what you are using : ip address or machine : port number : database
+            logger.info("Database credentials fetched");
             return connection;
         }
         return connection;
@@ -39,6 +44,7 @@ public class EmployeeDataAccessObject {
         if (connection!=null){
             connection.close();
         }
+        logger.info("Connection closed");
     }
 
 
@@ -66,6 +72,7 @@ public class EmployeeDataAccessObject {
             e.printStackTrace();
         }
         System.out.println(sb.toString());
+        logger.info("Query returned from Database");
         return sb.toString();
     }
     public static void insertData(Employee e, String listName, Connection thisConnection){
@@ -104,11 +111,12 @@ public class EmployeeDataAccessObject {
         try {
             PreparedStatement preparedStatement = thisConnection.prepareStatement(
                     "DROP TABLE IF EXISTS `employeelist`.`"+listName+"`");
-            System.out.println("Table dropped:"+ listName);
+            //System.out.println("Table dropped:"+ listName);
             preparedStatement.execute();
     } catch (SQLException e) {
             e.printStackTrace();
-        }}
+        }
+        logger.info("Table dropped from Database");}
 
         public static void dropAndCreateTable(ArrayList<Employee> list,String listName, Connection thisConnection){
         try {
@@ -133,6 +141,7 @@ public class EmployeeDataAccessObject {
             for(Employee employee: list){
                 insertData(employee, listName, thisConnection);
             }
+            logger.info("Data inserted to table");
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
