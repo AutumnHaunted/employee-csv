@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
 import java.util.Scanner;
@@ -40,11 +41,11 @@ public class DisplayHandler {
 //        logger.info("Amount of duplicate records found: " + employeeList.getDuplicates().size());
 //
 //    }
-    public static void printEmployeeList(EmployeeList el, boolean choice){
-        System.out.println("\tNumber of records in array: "+ el.getEmployees().size());
+    public static void printEmployeeList(ArrayList<Employee> el, boolean choice){
+        System.out.println("\tNumber of records in array: "+ el.size());
         if(choice)
-        for(int i=0; i < el.getEmployees().size();i++){
-            System.out.println(el.getEmployees().toString());
+        for(int i=0; i < el.size();i++){
+            System.out.println(el.toString());
         }
     }
     public static int getThreads(){
@@ -76,7 +77,7 @@ public class DisplayHandler {
     }
     public static void printTimeTaken(long startTime, long endTime){
         long timeTaken = endTime - startTime;
-        System.out.println("Finished in: "+timeTaken+" seconds.");
+        System.out.println("Finished in: "+timeTaken+" milliseconds.");
     }
     public static String getFilePath(){
         Scanner scanner = new Scanner(System.in);

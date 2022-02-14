@@ -36,6 +36,7 @@ public class CSVReadHandler {
             }
         } catch (IOException e) {
             DisplayHandler.printException(e);
+            System.exit(1);
         }
         return csvLines;
     }
