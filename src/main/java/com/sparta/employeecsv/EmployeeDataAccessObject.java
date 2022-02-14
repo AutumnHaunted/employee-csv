@@ -1,39 +1,37 @@
 package com.sparta.employeecsv;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Properties;
 
 import java.sql.SQLException;
 
-import static com.sparta.employeecsv.Main.logger;
-
 public class EmployeeDataAccessObject {
+    private static final Logger logger = LogManager.getLogger("EDAO logger:");
     private static Connection connection = null;
-    public static Connection newConnection() throws SQLException {
-        Properties props = new Properties();
-        try {
-            props.load(new FileReader("mysql.properties"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return DriverManager.getConnection(
-                props.getProperty("db.url"),
-                props.getProperty("db.userID"),
-                props.getProperty("db.password"));
-        //jdbc: what you are using : ip address or machine : port number : database
 
-    }
-    public static Connection getConnection() throws SQLException,IOException {
+    public static Connection getConnection() throws SQLException {
         if(connection==null) {
-            connection = newConnection();
+            Properties props = new Properties();
+            try {
+                props.load(new FileReader("mysql.properties"));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            connection = DriverManager.getConnection(
+                    props.getProperty("db.url"),
+                    props.getProperty("db.userID"),
+                    props.getProperty("db.password"));
             //jdbc: what you are using : ip address or machine : port number : database
+            logger.info("Database credentials fetched");
             return connection;
         }
         return connection;
@@ -45,10 +43,11 @@ public class EmployeeDataAccessObject {
         if (connection!=null){
             connection.close();
         }
+        logger.info("Connection closed");
     }
 
 
-    public static void queryDataBase(String query){
+    public static String queryDataBase(String query){
         StringBuilder sb = new StringBuilder();
         Statement statement;
         try {
@@ -72,6 +71,8 @@ public class EmployeeDataAccessObject {
             e.printStackTrace();
         }
         System.out.println(sb.toString());
+        logger.info("Query returned from Database");
+        return sb.toString();
     }
     public static void insertData(Employee e, String listName, Connection thisConnection){
         try {
@@ -91,7 +92,6 @@ public class EmployeeDataAccessObject {
     }
 
     private static PreparedStatement setEmployeeVars(PreparedStatement preparedStatement, Employee e) throws SQLException {
-
         preparedStatement.setInt(1, e.getEmpID());
         preparedStatement.setString(2, e.getPrefix());
         preparedStatement.setString(3, e.getFirstName());
@@ -110,20 +110,19 @@ public class EmployeeDataAccessObject {
         try {
             PreparedStatement preparedStatement = thisConnection.prepareStatement(
                     "DROP TABLE IF EXISTS `employeelist`.`"+listName+"`");
-            System.out.println("Table dropped:"+ listName);
+            //System.out.println("Table dropped:"+ listName);
             preparedStatement.execute();
     } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
+        logger.info("Table dropped from Database");}
 
     public static void dropAndCreateTable(String listName, Connection thisConnection){
         try {
             dropTable(listName,thisConnection); //drops table if exists
             PreparedStatement preparedStatement = thisConnection.prepareStatement(
 
-                            "CREATE TABLE `employeelist`.`"+listName+"` (\n" +
+                    "CREATE TABLE `employeelist`.`"+listName+"` (\n" +
                             "                    \n" +
                             "             `EmpID` INT NOT NULL,\n" +
                             "            `Prefix` VARCHAR(45) NOT NULL,\n" +
@@ -150,8 +149,9 @@ public class EmployeeDataAccessObject {
         }
 
     }
-
-
+//finally {
+//        closeConnection();
+//    }
 
 }
 
