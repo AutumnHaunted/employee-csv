@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class EmployeeDataAccessObject {
     private static Connection connection = null;
 
-    public static Connection getConnection() throws SQLException,IOException {
+    public static Connection getConnection() throws SQLException {
         if(connection==null) {
             Properties props = new Properties();
             try {
@@ -42,7 +42,7 @@ public class EmployeeDataAccessObject {
     }
 
 
-    public static void queryDataBase(String query){
+    public static String queryDataBase(String query){
         StringBuilder sb = new StringBuilder();
         Statement statement;
         try {
@@ -66,6 +66,7 @@ public class EmployeeDataAccessObject {
             e.printStackTrace();
         }
         System.out.println(sb.toString());
+        return sb.toString();
     }
     public static void insertData(Employee e, String listName, Connection thisConnection){
         try {
@@ -141,21 +142,6 @@ public class EmployeeDataAccessObject {
 //        closeConnection();
 //    }
 
-    public static void main(String[] args) throws SQLException, IOException {
-        ArrayList<Employee> employees = new ArrayList<>();
-        Employee e;
-        try {
-            e = new Employee(19843, "Mrs.", "Serafina", 'I', "Bumgarner", 'F', "serafina.bumgarner@exxonmobil.com", "9/21/1982", "2/1/2008", 69294);
-            employees.add(e);
-            //insertData(e, getConnection());
-            dropAndCreateTable(employees,"testing3", getConnection());
-            queryDataBase("SELECT * FROM testing3;");
-            closeConnection();
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
-
-    }
 }
 
 
