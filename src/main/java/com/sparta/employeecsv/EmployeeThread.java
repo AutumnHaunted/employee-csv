@@ -23,7 +23,7 @@ public class EmployeeThread implements Runnable {
     private static final Properties properties = new Properties();
     public EmployeeThread(ArrayList<Employee> list, String tableName) throws SQLException {
         this.list = list;
-        this.connection = EmployeeDataAccessObject.newConnection();
+        this.connection = EmployeeDataAccessObject.getConnection();
         this.tableName = tableName;
 
     }
