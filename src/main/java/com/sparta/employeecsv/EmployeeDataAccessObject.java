@@ -117,13 +117,12 @@ public class EmployeeDataAccessObject {
         }
         logger.info("Table dropped from Database");}
 
-        public static void dropAndCreateTable(ArrayList<Employee> list,String listName, Connection thisConnection){
+    public static void dropAndCreateTable(String listName, Connection thisConnection){
         try {
             dropTable(listName,thisConnection); //drops table if exists
             PreparedStatement preparedStatement = thisConnection.prepareStatement(
-//          Insert SQL Statement Here
-//                    "DROP TABLE IF EXISTS `employeelist`.`"+listName+"`;" +
-                            "CREATE TABLE `employeelist`.`"+listName+"` (\n" +
+
+                    "CREATE TABLE `employeelist`.`"+listName+"` (\n" +
                             "                    \n" +
                             "             `EmpID` INT NOT NULL,\n" +
                             "            `Prefix` VARCHAR(45) NOT NULL,\n" +
@@ -137,14 +136,18 @@ public class EmployeeDataAccessObject {
                             "                    `Salary` INT NOT NULL,\n" +
                             "                    PRIMARY KEY (`EmpID`));");
             preparedStatement.execute();
-            for(Employee employee: list){
-                insertData(employee, listName, thisConnection);
-            }
-            logger.info("Data inserted to table");
+//            if(list.contains(null)){
+//                logger.warn(listName + " is empty");
+//            }else {
+//                for (Employee employee : list) {
+//                    insertData(employee, listName, thisConnection);
+//                }
+//            }
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
     }
 //finally {
 //        closeConnection();

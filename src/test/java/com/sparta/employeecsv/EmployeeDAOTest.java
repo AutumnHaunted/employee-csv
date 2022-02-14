@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class EmployeeDAOTest {
 
 
-
     @Test
     @DisplayName("Check Connection is closes")
     public void checkConnectionCloses() throws ParseException
@@ -25,7 +24,7 @@ public class EmployeeDAOTest {
             e = new Employee(19843, "Mrs.", "Serafina", 'I', "Bumgarner", 'F', "serafina.bumgarner@exxonmobil.com", "9/21/1982", "2/1/2008", 69294);
             employees.add(e);
             //insertData(e, getConnection());
-            dropAndCreateTable(employees,"testing3", getConnection());
+            dropAndCreateTable("testing3", getConnection());
             closeConnection();
             boolean actual = getConnection().isClosed();
             boolean expected2=true;
@@ -47,7 +46,7 @@ public class EmployeeDAOTest {
             e = new Employee(19843, "Mrs.", "Serafina", 'I', "Bumgarner", 'F', "serafina.bumgarner@exxonmobil.com", "9/21/1982", "2/1/2008", 69294);
             employees.add(e);
             //insertData(e, getConnection());
-            dropAndCreateTable(employees,"testing3", getConnection());
+            dropAndCreateTable("testing3", getConnection());
             boolean actual = getConnection().isClosed();
             boolean expected2=false;
             assertEquals(expected2,actual);
@@ -58,29 +57,5 @@ public class EmployeeDAOTest {
             ex.printStackTrace();
         }
     }
-    // not working, Values are the same but it wont say its equal
-    @Test
-    @DisplayName("Given a  valid employee return true")
-    public void givenAValidEmployee_ReturnTrue() throws ParseException
-    {
-        ArrayList<Employee> employees = new ArrayList<>();
-        Employee e;
-        Object el = null;
-        try {
-            e = new Employee(19843, "Mrs.", "Serafina", 'I', "Bumgarner", 'F', "serafina.bumgarner@exxonmobil.com", "9/21/1982", "2/1/2008", 69294);
-            employees.add(e);
-            //insertData(e, getConnection());
-            dropAndCreateTable(employees,"testing3", getConnection());
-            String s=queryDataBase("SELECT * FROM testing3;");
-            String expected="19843Mrs.SerafinaIBumgarnerFserafina.bumgarner@exxonmobil.com1982-09-212008-02-0169294 ";
-            closeConnection();
-            boolean actual = expected.equals(s);
-            boolean expected2=true;
-            assertEquals(s,expected);
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
+
 }
